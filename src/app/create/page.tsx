@@ -11,13 +11,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
+
+const defaultErrorState = {
+  title: '',
+  imageA: '',
+  imageB: '',
+};
 
 export default function CreatePage() {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-  const saveStorageId = useMutation(api.thumbnails.createThumbnail);
+  const createThumbnail = useMutation(api.thumbnails.createThumbnail);
   const [imageA, setImageA] = useState('');
   const [imageB, setImageB] = useState('');
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(defaultErrorState);
+  const router = useRouter();
   const { toast } = useToast();
   return (
     <div className="mt-16">
@@ -28,46 +36,54 @@ export default function CreatePage() {
       </p>
 
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
           const title = formData.get('title') as string;
-          setErrors(() => ({}));
+          let newErrors = {
+            ...defaultErrorState,
+          };
+
           if (!title) {
-            setErrors((currentErrors) => ({
-              ...currentErrors,
+            newErrors = {
+              ...newErrors,
               title: 'please fill in this required field',
-            }));
-          }
-          if (!imageA) {
-            setErrors((currentErrors) => ({
-              ...currentErrors,
-              title: 'please fill in this required field',
-            }));
-          }
-          if (!imageB) {
-            setErrors((currentErrors) => ({
-              ...currentErrors,
-              title: 'please fill in this required field',
-            }));
+            };
           }
 
-          if (!title || !imageA || !imageB) {
-            setErrors('Please fill in all fields on the page');
+          if (!imageA) {
+            newErrors = {
+              ...newErrors,
+              imageA: 'please fill in this required field',
+            };
+          }
+
+          if (!imageB) {
+            newErrors = {
+              ...newErrors,
+              imageB: 'please fill in this required field',
+            };
+          }
+
+          setErrors(newErrors);
+          const hasErrors = Object.values(newErrors).some(Boolean);
+
+          if (hasErrors) {
             toast({
               title: 'Form Errors',
-              description: 'Please fill in all fields',
+              description: 'Please fill fields on the page',
               variant: 'destructive',
             });
             return;
           }
 
-          createThumbnail({
+          const thumbnailId = await createThumbnail({
             aImage: imageA,
             bImage: imageB,
             title,
           });
+          router.push(`/thumbnails/${thumbnailId}`);
         }}
       >
         <div className="flex flex-col gap-4 mb-8">
@@ -76,14 +92,21 @@ export default function CreatePage() {
             required
             id="title"
             type="text"
+            name="title"
             placeholder="Label your compare to make it easier to distribute"
+            className={clsx({
+              border: errors.title,
+              'border-red-500': errors.title,
+            })}
           />
+          {errors.title && <div className="text-red-500"> {errors.title}</div>}
         </div>
 
         <div className="grid grid-cols-2 gap-8 mb-8">
           <div
-            className={clsx('flex flex-col gap-4', {
-              'border-red-500': errors,
+            className={clsx('flex flex-col gap-4 rounded p-2', {
+              border: errors.imageA,
+              'border-red-500': errors.imageA,
             })}
           >
             <h2 className="text-2xl font-bold text-center">Test Image A</h2>
@@ -105,8 +128,16 @@ export default function CreatePage() {
                 alert(`ERROR! ${error}`);
               }}
             />
+            {errors.imageA && (
+              <div className="text-red-500"> {errors.imageA}</div>
+            )}
           </div>
-          <div className="flex flex-col gap-4">
+          <div
+            className={clsx('flex flex-col gap-4 rounded p-2', {
+              border: errors.imageB,
+              'border-red-500': errors.imageB,
+            })}
+          >
             <h2 className="text-2xl font-bold text-center">Test Image B</h2>
             {imageB && (
               <Image
@@ -126,6 +157,9 @@ export default function CreatePage() {
                 alert(`ERROR! ${error}`);
               }}
             />
+            {errors.imageB && (
+              <div className="text-red-500"> {errors.imageB}</div>
+            )}
           </div>
         </div>
         <Button>Create Jersey compare</Button>
