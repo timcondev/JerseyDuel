@@ -11,7 +11,6 @@ export default function Home() {
 
   return (
     <main className="">
-      {isSignedIn ? <SignOutButton /> : <SignInButton />}
       {isSignedIn && (
         <form
           onSubmit={async (e) => {
