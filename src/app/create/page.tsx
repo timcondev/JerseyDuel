@@ -13,6 +13,7 @@ import { useToast } from '@/components/ui/use-toast';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { getImageUrl } from '@/lib/utils';
+import { useSession } from '@clerk/nextjs';
 
 const defaultErrorState = {
   title: '',
@@ -28,6 +29,7 @@ export default function CreatePage() {
   const [errors, setErrors] = useState(defaultErrorState);
   const router = useRouter();
   const { toast } = useToast();
+  const session = useSession();
   return (
     <div className="mt-16">
       <h1 className="text-4xl font-bold">Upload a Jersey!</h1>
@@ -83,6 +85,7 @@ export default function CreatePage() {
             aImage: imageA,
             bImage: imageB,
             title,
+            profileImage: session.session?.user.imageUrl,
           });
           router.push(`/thumbnails/${thumbnailId}`);
         }}

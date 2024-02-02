@@ -19,6 +19,9 @@ export function Header() {
             <Link href="/dashboard" className="link">
               Dashboard
             </Link>
+            <Link href="/explore" className="link">
+              Explore
+            </Link>
           </SignedIn>
           <SignedOut>
             <Link href="/about" className="link">
