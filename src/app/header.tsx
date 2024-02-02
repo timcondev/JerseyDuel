@@ -8,7 +8,9 @@ export function Header() {
   return (
     <div className="h-16 border-b">
       <div className="container flex justify-between items-center ">
-        <div>JerseyRater</div>
+        <div>
+          <Link href="/">JerseyRater</Link>
+        </div>
         <div className="flex gap-8">
           <SignedIn>
             <Link href="/create" className="link">

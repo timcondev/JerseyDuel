@@ -44,7 +44,7 @@ export default function ThumbnailPage() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="flex flex-col justify-center items-center gap-4">
           <h2 className="text-2xl font-bold text-center mb-2 md:text-4xl">
-            Test Image A
+            Jersey A
           </h2>
           <Image
             width="400"
@@ -78,7 +78,7 @@ export default function ThumbnailPage() {
         </div>
         <div className="flex flex-col justify-center items-center gap-4">
           <h2 className="text-2xl font-bold text-center mb-2 md:text-4xl">
-            Test Image B
+            Jersey B
           </h2>
           <Image
             width="400"
