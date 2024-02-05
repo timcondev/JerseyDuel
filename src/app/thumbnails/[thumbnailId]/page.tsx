@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { useSession } from '@clerk/nextjs';
 import { Progress } from '@/components/ui/progress';
 import { useRef } from 'react';
+import Comments from './comments';
 
 export default function ThumbnailPage() {
   const params = useParams<{ thumbnailId: Id<'thumbnails'> }>();
@@ -65,7 +66,7 @@ export default function ThumbnailPage() {
             <Button
               onClick={() => {
                 voteOnThumbnail({
-                  thumbnail: thumbnailId,
+                  thumbnailId: thumbnailId,
                   imageId: firstImageId,
                 });
               }}
@@ -99,7 +100,7 @@ export default function ThumbnailPage() {
             <Button
               onClick={() => {
                 voteOnThumbnail({
-                  thumbnail: thumbnailId,
+                  thumbnailId: thumbnailId,
                   imageId: secondImageId,
                 });
               }}
@@ -111,6 +112,7 @@ export default function ThumbnailPage() {
           )}
         </div>
       </div>
+      <Comments thumbnail={thumbnail}></Comments>
     </div>
   );
 }

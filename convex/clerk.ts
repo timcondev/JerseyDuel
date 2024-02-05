@@ -1,7 +1,9 @@
-import { internalAction } from './_generated/server';
+'use node';
+
 import type { WebhookEvent } from '@clerk/clerk-sdk-node';
-import { v } from 'convex/values';
+import { internalAction } from './_generated/server';
 import { Webhook } from 'svix';
+import { v } from 'convex/values';
 
 export const fulfill = internalAction({
   args: { headers: v.any(), payload: v.string() },

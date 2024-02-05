@@ -33,10 +33,9 @@ export const pay = action({
       metadata: {
         userId: user.subject,
       },
-      mode: 'payment',
+      mode: 'subscription',
       success_url: `${domain}`,
       cancel_url: `${domain}`,
-      automatic_tax: { enabled: true },
     });
 
     return session.url!;
@@ -69,15 +68,11 @@ export const fulfill = internalAction({
 
         const userId = completedEvent.metadata.userId;
 
-        await ctx.runMutation(internal.users.setStripeId, {
+        await ctx.runMutation(internal.users.updateSubscription, {
           userId,
-          stripeId: completedEvent.id,
+          subscriptionId: subscription.id,
+          endsOn: subscription.current_period_end * 1000,
         });
-        // await ctx.runMutation(internal.users.updateSubscription, {
-        //   userId,
-        //   subscriptionId: subscription.id,
-        //   endsOn: subscription.current_period_end * 1000,
-        // });
       }
 
       if (event.type === 'invoice.payment_succeeded') {
@@ -85,10 +80,10 @@ export const fulfill = internalAction({
           completedEvent.subscription as string
         );
 
-        // await ctx.runMutation(internal.users.updateSubscriptionBySubId, {
-        //   subscriptionId: subscription.items.data[0]?.price.id,
-        //   endsOn: subscription.current_period_end * 1000,
-        // });
+        await ctx.runMutation(internal.users.updateSubscriptionBySubId, {
+          subscriptionId: subscription.items.data[0]?.price.id,
+          endsOn: subscription.current_period_end * 1000,
+        });
       }
 
       return { success: true };

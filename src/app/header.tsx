@@ -3,8 +3,12 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { ModeToggle } from './mode-toggle';
 import Link from 'next/link';
+import { useIsSubscribed } from '@/hooks/useIsSubscribed';
+import { UpgradeButton } from '@/components/upgrade-button';
 
 export function Header() {
+  const isSubscribed = useIsSubscribed();
+
   return (
     <div className="h-16 border-b">
       <div className="container flex justify-between items-center ">
@@ -34,6 +38,7 @@ export function Header() {
         </div>
         <div className="flex gap-4 items-center">
           <SignedIn>
+            {!isSubscribed && <UpgradeButton />}
             <UserButton />
           </SignedIn>
           <SignedOut>
