@@ -1,14 +1,14 @@
 'use client';
 
-import { UploadButton, UploadFileResponse } from '@xixixao/uploadstuff/react';
 import { useMutation } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
+import { UploadButton, UploadFileResponse } from '@xixixao/uploadstuff/react';
+import '@xixixao/uploadstuff/react/styles.css';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { createThumbnail } from '../../../convex/thumbnails';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
@@ -28,15 +28,17 @@ export default function CreatePage() {
   const [imageA, setImageA] = useState('');
   const [imageB, setImageB] = useState('');
   const [errors, setErrors] = useState(defaultErrorState);
-  const router = useRouter();
   const { toast } = useToast();
+  const router = useRouter();
   const session = useSession();
+
   return (
     <div className="mt-16">
-      <h1 className="text-4xl font-bold">Upload a Jersey!</h1>
+      <h1 className="text-4xl font-bold mb-8">Create a Jersey Duel!</h1>
+
       <p className="text-lg max-w-md mb-8">
-        Upload your favorite jersey for others to rate! You can upload your
-        favourite team jersey or your own custom creations!
+        Upload two jerseys so that other people can vote on their favorite
+        Jersey. May the best Jersey Win!
       </p>
 
       <form
@@ -81,6 +83,7 @@ export default function CreatePage() {
             });
             return;
           }
+
           try {
             const thumbnailId = await createThumbnail({
               aImage: imageA,
@@ -88,13 +91,14 @@ export default function CreatePage() {
               title,
               profileImage: session.session?.user.imageUrl,
             });
+
             router.push(`/thumbnails/${thumbnailId}`);
           } catch (err) {
             toast({
-              title: 'You ran out of free credits',
+              title: 'You ran out of a free credits',
               description: (
                 <div>
-                  <UpgradeButton /> to create more!
+                  You must <UpgradeButton /> in order to create more duels tests
                 </div>
               ),
               variant: 'destructive',
@@ -103,37 +107,38 @@ export default function CreatePage() {
         }}
       >
         <div className="flex flex-col gap-4 mb-8">
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">Your Duel Title</Label>
           <Input
-            required
             id="title"
             type="text"
             name="title"
-            placeholder="Label your compare to make it easier to distribute"
+            placeholder="Label your duel to make it easier to manage later"
             className={clsx({
               border: errors.title,
               'border-red-500': errors.title,
             })}
           />
-          {errors.title && <div className="text-red-500"> {errors.title}</div>}
+          {errors.title && <div className="text-red-500">{errors.title}</div>}
         </div>
 
-        <div className="grid grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-2 gap-8 mb-8 text-center ">
           <div
-            className={clsx('flex flex-col gap-4 rounded p-2', {
+            className={clsx('flex flex-col gap-4 rounded p-2 items-center', {
               border: errors.imageA,
               'border-red-500': errors.imageA,
             })}
           >
-            <h2 className="text-2xl font-bold text-center">Test Image A</h2>
+            <h2 className="text-2xl font-bold">Jersey Image A</h2>
+
             {imageA && (
               <Image
-                width="200"
-                height="200"
-                alt="jersey a"
+                width="600"
+                height="800"
+                alt="image test a"
                 src={getImageUrl(imageA)}
               />
             )}
+
             <UploadButton
               uploadUrl={generateUploadUrl}
               fileTypes={['image/*']}
@@ -144,41 +149,49 @@ export default function CreatePage() {
                 alert(`ERROR! ${error}`);
               }}
             />
+
             {errors.imageA && (
-              <div className="text-red-500"> {errors.imageA}</div>
+              <div className="text-red-500">{errors.imageA}</div>
             )}
           </div>
-          <div
-            className={clsx('flex flex-col gap-4 rounded p-2', {
-              border: errors.imageB,
-              'border-red-500': errors.imageB,
-            })}
-          >
-            <h2 className="text-2xl font-bold text-center">Test Image B</h2>
-            {imageB && (
-              <Image
-                width="200"
-                height="200"
-                alt="jersey b"
-                src={getImageUrl(imageB)}
+          <div className="flex flex-col gap-4 ">
+            <div
+              className={clsx('flex flex-col gap-4 rounded p-2 items-center', {
+                border: errors.imageB,
+                'border-red-500': errors.imageB,
+              })}
+            >
+              <h2 className="text-2xl font-bold">Jersey Image B</h2>
+
+              {imageB && (
+                <Image
+                  width="600"
+                  height="800"
+                  alt="image test b"
+                  src={getImageUrl(imageB)}
+                />
+              )}
+
+              <UploadButton
+                uploadUrl={generateUploadUrl}
+                fileTypes={['image/*']}
+                onUploadComplete={async (uploaded: UploadFileResponse[]) => {
+                  setImageB((uploaded[0].response as any).storageId);
+                }}
+                onUploadError={(error: unknown) => {
+                  alert(`ERROR! ${error}`);
+                }}
               />
-            )}
-            <UploadButton
-              uploadUrl={generateUploadUrl}
-              fileTypes={['image/*']}
-              onUploadComplete={async (uploaded: UploadFileResponse[]) => {
-                setImageB((uploaded[0].response as any).storageId);
-              }}
-              onUploadError={(error: unknown) => {
-                alert(`ERROR! ${error}`);
-              }}
-            />
-            {errors.imageB && (
-              <div className="text-red-500"> {errors.imageB}</div>
-            )}
+
+              {errors.imageB && (
+                <div className="text-red-500">{errors.imageB}</div>
+              )}
+            </div>
           </div>
         </div>
-        <Button>Create Jersey compare</Button>
+        <div className="flex flex-col max-w-md m-auto">
+          <Button>Create Jersey Duel</Button>
+        </div>
       </form>
     </div>
   );

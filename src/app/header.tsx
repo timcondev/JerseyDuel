@@ -13,7 +13,7 @@ export function Header() {
     <div className="h-16 border-b">
       <div className="container flex justify-between items-center ">
         <div>
-          <Link href="/">JerseyRater</Link>
+          <Link href="/">Jersey Duel</Link>
         </div>
         <div className="flex gap-8">
           <SignedIn>

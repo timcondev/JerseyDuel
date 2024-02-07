@@ -14,8 +14,8 @@ export default function Home() {
               Compare Jerseys! Vote for your Fav!
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-              Upload your favorite jerseys and your competition. Send the link
-              to your friends and see which jersey comes out on top!
+              Upload your favorite jerseys and its competition. Send the link to
+              your friends to see which jersey comes out on top!
             </p>
             <Button asChild>
               <Link href="/create">Get started</Link>
