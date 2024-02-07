@@ -18,11 +18,12 @@ export default function Home() {
               your friends to see which jersey comes out on top!
             </p>
             <Button asChild>
-              <Link href="/create">Get started</Link>
+              <Link href="/create">Get Started</Link>
             </Button>
           </div>
           <div className="col-span-5">
             <Image
+              priority
               src="/hero.jpg"
               alt="mockup"
               width="600"

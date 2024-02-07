@@ -7,38 +7,31 @@ import { useIsSubscribed } from '@/hooks/useIsSubscribed';
 import { UpgradeButton } from '@/components/upgrade-button';
 
 export function Header() {
-  const isSubscribed = useIsSubscribed();
+  const isSubscriped = useIsSubscribed();
 
   return (
-    <div className="h-16 border-b">
-      <div className="container flex justify-between items-center ">
-        <div>
-          <Link href="/">Jersey Duel</Link>
-        </div>
+    <div className="border-b">
+      <div className="h-16 container flex justify-between items-center">
+        <Link href="/">Jersey Duel</Link>
+
         <div className="flex gap-8">
           <SignedIn>
-            <Link href="/create" className="link">
-              Create
-            </Link>
             <Link href="/dashboard" className="link">
               Dashboard
+            </Link>
+            <Link href="/create" className="link">
+              Create
             </Link>
             <Link href="/explore" className="link">
               Explore
             </Link>
           </SignedIn>
-          <SignedOut>
-            <Link href="/about" className="link">
-              About
-            </Link>
-            <Link href="/pricing" className="link">
-              Pricing
-            </Link>
-          </SignedOut>
+          <SignedOut></SignedOut>
         </div>
+
         <div className="flex gap-4 items-center">
           <SignedIn>
-            {!isSubscribed && <UpgradeButton />}
+            {!isSubscriped && <UpgradeButton />}
             <UserButton />
           </SignedIn>
           <SignedOut>
