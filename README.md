@@ -1,36 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Jersey Duel!
 
-## Getting Started
+Upload your favorite jersey and an alternative. Send the link to friends who can then vote on the jersey they like most. Leave comments to really let them know how you feel! Explore jerseys uploaded by others and vote on them as well. Use your free credits or upgrade your subscription (no charges will be processed in development mode) to post unlimited duels and view all older comments.
 
-First, run the development server:
+File uploads, storage and link creation. Persistent voting and comment systems. Created to explore other file storage/server options. While creating a full service Saas that accepts payments through Stripe.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Technical Info
+Build using Next.JS and tailwind. Using Clerk for authentication, Convex for storage and Stripe for payment processing. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# ToDo
+Top rated of all jerseys by number of votes and percentages.
+Option to quickly send to social links
