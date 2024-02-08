@@ -7,7 +7,7 @@ import { useIsSubscribed } from '@/hooks/useIsSubscribed';
 import { UpgradeButton } from '@/components/upgrade-button';
 
 export function Header() {
-  const isSubscriped = useIsSubscribed();
+  const isSubscribed = useIsSubscribed();
 
   return (
     <div className="border-b">
@@ -31,7 +31,7 @@ export function Header() {
 
         <div className="flex gap-4 items-center">
           <SignedIn>
-            {!isSubscriped && <UpgradeButton />}
+            {!isSubscribed && <UpgradeButton />}
             <UserButton />
           </SignedIn>
           <SignedOut>

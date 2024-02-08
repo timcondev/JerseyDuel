@@ -99,8 +99,7 @@ export default function CreatePage() {
               title: 'You ran out of a free credits',
               description: (
                 <div>
-                  You must <UpgradeButton /> in order to create more thumbnail
-                  tests
+                  You must <UpgradeButton /> in order to create more duels
                 </div>
               ),
               variant: 'destructive',
